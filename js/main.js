@@ -33,33 +33,33 @@ animate();
         });
 
 
-// now create the individual particles
         for (var p = 0; p < peasentCount; p++) {
-
-            // create a particle with random
-            // position values, -250 -> 250
-            var pX = Math.random() * 600 - 300,
-                pY = Math.random() * 600 - 300,
-                pZ = 0,
-                particle = new THREE.Vector3(pX, pY, pZ);
-
+            var type = p > peasentCount/2 ? 2 : 1;
+            var pX, pY, pZ, particle;
+            if(type === 1) {
+                pX = Math.random() * 250 - 300;
+            }
+            else{
+                pX = Math.random() * 250 + 50;
+            }
+            pY = Math.random() * 600 - 300;
+            pZ = 0;
+            particle = new THREE.Vector3(pX, pY, pZ);
+            particle.type = type;
             particle.velocity = new THREE.Vector3(Math.random(), -Math.random(), 0);
 
-            // add it to the geometry
             peasents.vertices.push(particle);
         }
 
-// create the particle system
         peasentSystem = new THREE.Points(
             peasents,
             peasentMaterial);
         peasentSystem.sortParticles = true;
 
-// add it to the scene
         scene.add(peasentSystem);
 
 
-        kingCount = 1;
+        kingCount = 2;
         kings = new THREE.Geometry();
         kingMaterial = new THREE.PointsMaterial({
             color: 0xB99B30,
@@ -67,11 +67,8 @@ animate();
         });
 
 
-// now create the individual particles
         for (var k = 0; k < kingCount; k++) {
 
-            // create a particle with random
-            // position values, -250 -> 250
             var kX = Math.random() * 800 - 400,
                 kY = Math.random() * 800 - 400,
                 kZ = 0,
@@ -148,21 +145,26 @@ animate();
 
             var king = getClosestKing(peasents.vertices[i]);
             var bounced = false;
-
-            if(particle.y < -300 || particle.y > 300){
+            if(particle.type === 1) {
+                if (particle.x < -300 || particle.x >= -50) {
+                    particle.velocity.x *= -1;
+                    bounced = true;
+                }
+            }
+            else{
+                if (particle.x <= 50 || particle.x > 300) {
+                    particle.velocity.x *= -1;
+                    bounced = true;
+                }
+            }
+            if (particle.z < -300 || particle.z > 300) {
+                particle.velocity.z *= -1;
+                bounced = true;
+            }
+            if (particle.y < -300 || particle.y > 300) {
                 particle.velocity.y *= -1;
                 bounced = true;
 
-            }
-
-            if(particle.x < -300 || particle.x > 300){
-                particle.velocity.x *= -1;
-                bounced = true;
-            }
-
-            if(particle.z < -300 || particle.z > 300){
-                particle.velocity.z *= -1;
-                bounced = true;
             }
             /*if(!bounced) {
                 for (var j = 0; j < peasents.vertices.length; j++) {
