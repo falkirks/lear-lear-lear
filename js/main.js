@@ -1,6 +1,5 @@
 require({
     baseUrl: 'js',
-    // three.js should have UMD support soon, but it currently does not
     shim: {
         'vendor/three': { exports: 'THREE' },
         'vendor/perlin': { exports: 'noise' }
@@ -24,17 +23,16 @@ animate();
         camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 1, 10000 );
         camera.position.z = 700;
 
-        // create the particle variables
-        peasentCount = 1000;
-        peasents = new THREE.Geometry();
-        peasentMaterial = new THREE.PointsMaterial({
+        followerCount = 1000;
+        followers = new THREE.Geometry();
+        followerMaterial = new THREE.PointsMaterial({
             color: 0xFFFFFF,
             size: 5
         });
 
 
-        for (var p = 0; p < peasentCount; p++) {
-            var type = p > peasentCount/2 ? 2 : 1;
+        for (var p = 0; p < followerCount; p++) {
+            var type = p > followerCount/2 ? 2 : 1;
             var pX, pY, pZ, particle;
             if(type === 1) {
                 pX = Math.random() * 250 - 300;
@@ -48,18 +46,18 @@ animate();
             particle.type = type;
             particle.velocity = new THREE.Vector3(Math.random(), -Math.random(), 0);
 
-            peasents.vertices.push(particle);
+            followers.vertices.push(particle);
         }
 
-        peasentSystem = new THREE.Points(
-            peasents,
-            peasentMaterial);
-        peasentSystem.sortParticles = true;
+        followersystem = new THREE.Points(
+            followers,
+            followerMaterial);
+        followersystem.sortParticles = true;
 
-        scene.add(peasentSystem);
+        scene.add(followersystem);
 
 
-        kingCount = 2;
+        kingCount = 3;
         kings = new THREE.Geometry();
         kingMaterial = new THREE.PointsMaterial({
             color: 0xB99B30,
@@ -76,7 +74,6 @@ animate();
 
             king.velocity = new THREE.Vector3(Math.random()*3, -Math.random()*3, 0);
 
-            // add it to the geometry
             kings.vertices.push(king);
         }
 
@@ -85,7 +82,6 @@ animate();
             kingMaterial);
         kingSystem.sortParticles = true;
 
-// add it to the scene
         scene.add(kingSystem);
 
         renderer = new THREE.WebGLRenderer();
@@ -101,13 +97,8 @@ animate();
 
         for (var i = 0; i < kings.vertices.length; i++) {
 
-            // get the particle
             var particle = kings.vertices[i];
-            if(i == 0){
-                console.log(particle);
-            }
 
-            // check if we need to reset
             if(particle.y < -400 || particle.y > 400){
                 particle.velocity.y *= -1;
             }
@@ -120,43 +111,30 @@ animate();
                 particle.velocity.z *= -1;
             }
 
-            // update the velocity with
-            // a splat of randomni
-            //particle.velocity.y -= Math.random() * 0.1;
-
-            // and the position
             particle.x += particle.velocity.x;
             particle.y += particle.velocity.y;
             particle.z += particle.velocity.z;
         }
 
-        // flag to the particle system
-        // that we've changed its vertices.
         kingSystem.geometry.verticesNeedUpdate = true;
 
 
-        // Now let's update the peasents
+        for(i = 0; i < followers.vertices.length; i++){
+            particle = followers.vertices[i];
 
-        for(i = 0; i < peasents.vertices.length; i++){
-            particle = peasents.vertices[i];
-            if(i == 0){
-                console.log(particle);
-            }
+            var king = getClosestKing(followers.vertices[i]);
 
-            var king = getClosestKing(peasents.vertices[i]);
             var bounced = false;
-            if(particle.type === 1) {
-                if (particle.x < -300 || particle.x >= -50) {
-                    particle.velocity.x *= -1;
-                    bounced = true;
-                }
+            if (particle.type === 1 && (particle.x < -300 || particle.x >= -50)) {
+                particle.velocity.x *= -1;
+                bounced = true;
             }
-            else{
-                if (particle.x <= 50 || particle.x > 300) {
-                    particle.velocity.x *= -1;
-                    bounced = true;
-                }
+
+            if (particle.type === 2 && (particle.x <= 50 || particle.x > 300)) {
+                particle.velocity.x *= -1;
+                bounced = true;
             }
+
             if (particle.z < -300 || particle.z > 300) {
                 particle.velocity.z *= -1;
                 bounced = true;
@@ -166,15 +144,7 @@ animate();
                 bounced = true;
 
             }
-            /*if(!bounced) {
-                for (var j = 0; j < peasents.vertices.length; j++) {
-                    var dist = particle.distanceTo(peasents.vertices[j]);
-                    if (dist <= 1) {
-                        bounced = true;
-                        //peasents.vertices[j].velocity.negate();
-                    }
-                }
-            }*/
+
             if(!bounced) {
                 if(particle.x > king.x ^ particle.velocity.x < 0){
                     particle.velocity.x *= -1;
@@ -191,17 +161,17 @@ animate();
             particle.y += particle.velocity.y;
             particle.z += particle.velocity.z;
         }
-        peasentSystem.geometry.verticesNeedUpdate = true;
+        followersystem.geometry.verticesNeedUpdate = true;
 
 
         renderer.render( scene, camera );
 
     }
-    function getClosestKing(peasent){
+    function getClosestKing(follower){
         var lowDist = 999999999999;
         var king = null;
         for (var i = 0; i < kings.vertices.length; i++) {
-            var dist = peasent.distanceTo(kings.vertices[i]);
+            var dist = follower.distanceTo(kings.vertices[i]);
             if(dist < lowDist){
                 lowDist = dist;
                 king = kings.vertices[i];
