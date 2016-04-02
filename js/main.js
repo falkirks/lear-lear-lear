@@ -1,6 +1,5 @@
 require({
     baseUrl: 'js',
-    // three.js should have UMD support soon, but it currently does not
     shim: {
         'vendor/three': { exports: 'THREE' },
         'vendor/perlin': { exports: 'noise' }
@@ -23,8 +22,7 @@ animate();
 
         camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 1, 10000 );
         camera.position.z = 700;
-
-        // create the particle variables
+        
         peasentCount = 500;
         peasents = new THREE.Geometry();
         peasentMaterial = new THREE.PointsMaterial({
@@ -32,30 +30,19 @@ animate();
             vertexColors: true
         });
 
-
-// now create the individual particles
         for (var p = 0; p < peasentCount; p++) {
-
-            // create a particle with random
-            // position values, -250 -> 250
             var pX = Math.random() * 600 - 300,
                 pY = Math.random() * 600 - 300,
                 pZ = 0,
                 particle = new THREE.Vector3(pX, pY, pZ);
 
             particle.velocity = new THREE.Vector3(Math.random(), -Math.random(), 0);
-
-            // add it to the geometry
             peasents.vertices.push(particle);
         }
-
-// create the particle system
         peasentSystem = new THREE.Points(
             peasents,
             peasentMaterial);
         peasentSystem.sortParticles = true;
-
-// add it to the scene
         scene.add(peasentSystem);
 
         renderer = new THREE.WebGLRenderer();
@@ -69,13 +56,8 @@ animate();
 
         requestAnimationFrame( animate );
 
-
         for(i = 0; i < peasents.vertices.length; i++){
             particle = peasents.vertices[i];
-            if(i == 0){
-                console.log(particle);
-            }
-
             var bounced = false;
 
             if(particle.y < -300 || particle.y > 300){
@@ -102,7 +84,6 @@ animate();
                         avg.addVectors(particle.velocity, peasents.vertices[j].velocity);
                         particle.velocity.subVectors(avg, particle.velocity);
                         peasents.vertices[j].velocity.subVectors(avg, peasents.vertices[j].velocity);
-                        //peasents.vertices[j].velocity.negate();
                     }
                 }
             }
@@ -113,16 +94,11 @@ animate();
             var c = 40 * Math.abs(noise.perlin2(particle.x / 1000, particle.y / 1000));
 
             peasentSystem.geometry.colors[i] = new THREE.Color(c, c, c);
-            if(i == 0) {
-                console.log(peasentSystem.geometry.colors[i]);
-            }
         }
         peasentSystem.geometry.colorsNeedUpdate = true;
         peasentSystem.geometry.verticesNeedUpdate = true;
 
-
         renderer.render( scene, camera );
-
     }
 
 });
