@@ -37,14 +37,12 @@ animate();
                 pZ = 0,
                 particle = new THREE.Vector3(pX, pY, pZ);
 
-            particle.velocity = new THREE.Vector3(Math.random(), -Math.random(), 0);
+            particle.velocity = Math.random();
 
             // Generate our "r" "theta", and "b" constant
             particle.theta = Math.atan2(pY,pX);
             particle.r = particle.distanceTo(new THREE.Vector3(0, 0, 0));
             particle.b = particle.r / particle.theta;
-
-            console.log(particle.r);
 
 
             peasents.vertices.push(particle);
@@ -67,11 +65,10 @@ animate();
     function animate() {
 
         requestAnimationFrame( animate );
-
         for(i = 0; i < peasents.vertices.length; i++){
             particle = peasents.vertices[i];
             if(particle.r >= 50) {
-                particle.r -= 0.3;
+                particle.r -= particle.velocity;
                 particle.theta = particle.r / particle.b;
             }
             else{
