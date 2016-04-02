@@ -11,31 +11,25 @@ require({
 
 var scene, camera, renderer;
 var geometry, material, mesh;
-
 init();
 animate();
-
+    
     function init() {
         noise.seed(Math.random());
-
         scene = new THREE.Scene();
-
         camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 1, 10000 );
         camera.position.z = 700;
-        
         peasentCount = 500;
         peasents = new THREE.Geometry();
         peasentMaterial = new THREE.PointsMaterial({
             size: 10,
             vertexColors: true
         });
-
         for (var p = 0; p < peasentCount; p++) {
             var pX = Math.random() * 600 - 300,
                 pY = Math.random() * 600 - 300,
                 pZ = 0,
                 particle = new THREE.Vector3(pX, pY, pZ);
-
             particle.velocity = new THREE.Vector3(Math.random(), -Math.random(), 0);
             peasents.vertices.push(particle);
         }
@@ -44,18 +38,12 @@ animate();
             peasentMaterial);
         peasentSystem.sortParticles = true;
         scene.add(peasentSystem);
-
         renderer = new THREE.WebGLRenderer();
         renderer.setSize( window.innerWidth, window.innerHeight );
-
         document.body.appendChild( renderer.domElement );
-
     }
-
     function animate() {
-
         requestAnimationFrame( animate );
-
         for(i = 0; i < peasents.vertices.length; i++){
             particle = peasents.vertices[i];
             var bounced = false;
@@ -63,14 +51,11 @@ animate();
             if(particle.y < -300 || particle.y > 300){
                 particle.velocity.y *= -1;
                 bounced = true;
-
             }
-
             if(particle.x < -300 || particle.x > 300){
                 particle.velocity.x *= -1;
                 bounced = true;
             }
-
             if(particle.z < -300 || particle.z > 300){
                 particle.velocity.z *= -1;
                 bounced = true;
@@ -87,18 +72,14 @@ animate();
                     }
                 }
             }
-
             particle.x += particle.velocity.x;
             particle.y += particle.velocity.y;
             particle.z += particle.velocity.z;
             var c = 40 * Math.abs(noise.perlin2(particle.x / 1000, particle.y / 1000));
-
             peasentSystem.geometry.colors[i] = new THREE.Color(c, c, c);
         }
         peasentSystem.geometry.colorsNeedUpdate = true;
         peasentSystem.geometry.verticesNeedUpdate = true;
-
         renderer.render( scene, camera );
     }
-
 });
