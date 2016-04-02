@@ -25,7 +25,7 @@ animate();
         camera.position.z = 700;
 
         // create the particle variables
-        peasentCount = 1000;
+        peasentCount = 500;
         peasents = new THREE.Geometry();
         peasentMaterial = new THREE.PointsMaterial({
             size: 10,
