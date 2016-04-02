@@ -99,17 +99,14 @@ animate();
 
             var particle = kings.vertices[i];
 
-            if(particle.y < -400 || particle.y > 400){
+            if(particle.y < -400 || particle.y > 400)
                 particle.velocity.y *= -1;
-            }
 
-            if(particle.x < -400 || particle.x > 400){
+            if(particle.x < -400 || particle.x > 400)
                 particle.velocity.x *= -1;
-            }
 
-            if(particle.z < -400 || particle.z > 400){
+            if(particle.z < -400 || particle.z > 400)
                 particle.velocity.z *= -1;
-            }
 
             particle.x += particle.velocity.x;
             particle.y += particle.velocity.y;
@@ -117,7 +114,6 @@ animate();
         }
 
         kingSystem.geometry.verticesNeedUpdate = true;
-
 
         for(i = 0; i < followers.vertices.length; i++){
             particle = followers.vertices[i];
@@ -163,9 +159,7 @@ animate();
         }
         followersystem.geometry.verticesNeedUpdate = true;
 
-
         renderer.render( scene, camera );
-
     }
     function getClosestKing(follower){
         var lowDist = 999999999999;
