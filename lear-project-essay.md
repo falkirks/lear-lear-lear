@@ -1,4 +1,4 @@
-Social order in King Lear
+# Social order in King Lear
 
 	
 Throughout Shakespeare’s King Lear, the ideas and behaviours of order and disorder are contrasted. Through the development of disorder in the play, the theme that the orderliness of a society depends on the existence of a set social structure emerges. Through the play Shakespeare shows various social structures and how they affect order in society. My creative piece is a four panel computer generative display to show the development of disorder in the play. Each panel represents the social order in a certain segment of the play. 
@@ -14,30 +14,11 @@ Following the death of Lear and Cordelia, society is fragmented. There is no lon
 To conclude, Shakespeare contrasts the ideas of disorder and order throughout King Lear. Through the development of disorder in the play, the theme that the orderliness of a society depends on the existence of a set social structure emerges. Shakespeare shows several social patterns in the play. I display these in my four panels: unity in Lear’s control, the division of the kingdom, the storm, and the fragmentation of society at the end of the play. 
 
 
+## Works Cited
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Works Cited
-
-Shakespeare, William. King Lear. Clayton: Prestwick, 2005. Print.
-Perlin, Kenneth. Standard for Perlin Noise. Kenneth Perlin, assignee. Patent US6867776 B2. 15 Mar.  		2005. Print.
-
-Weisstein, Eric W. "Archimedes' Spiral." MathWorld. WolframAlpha. Web. 06 Apr. 2016. <http://			mathworld.wolfram.com/ArchimedesSpiral.html>. Web.
+* Shakespeare, William. King Lear. Clayton: Prestwick, 2005. Print.
+* Perlin, Kenneth. Standard for Perlin Noise. Kenneth Perlin, assignee. Patent US6867776 B2. 15 Mar. 2005. Print.
+* Weisstein, Eric W. "Archimedes' Spiral." MathWorld. WolframAlpha. Web. 06 Apr. 2016. <http://			mathworld.wolfram.com/ArchimedesSpiral.html>. Web.
 
 
 
