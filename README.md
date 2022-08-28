@@ -1,1 +1,1 @@
-http://lear-2.herokuapp.com
+https://lear-2.noa.dev
